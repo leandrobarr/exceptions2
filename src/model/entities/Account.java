@@ -1,5 +1,7 @@
 package model.entities;
 
+import exceptions.BusinessException;
+
 public class Account {
 
     private Integer number;
@@ -49,5 +51,22 @@ public class Account {
         this.withdrawLimit = withdrawLimit;
     }
 
+    public void deposit(double amount) {
+        balance += amount;
+    }
 
+    public  void withdraw(double amount) {
+        validateWithdraw(amount);
+        balance -= amount;
+    }
+
+    private void validateWithdraw(double amount) {
+        if (amount > getWithdrawLimit()) {
+            throw new BusinessException("Withdraw Error: The amount exceeds the withdraw limit") ;
+        }
+        if(amount > getBalance()) {
+            throw new BusinessException("Withdraw error: Not enough balance");
+        }
+
+    }
 }
